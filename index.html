@@ -170,7 +170,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 clamp(20px,4vw,40p
 @keyframes fadeIn{to{opacity:1}}
 
 /* SECTIONS */
-.section-inner{max-width:1400px;margin:0 auto;padding:90px clamp(20px,4vw,40px)}
+.section-inner{max-width:1400px;margin:0 auto;padding:80px clamp(15px,3vw,30px)}
 .section-label{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--accent);text-transform:uppercase;margin-bottom:10px;opacity:0;transform:translateY(14px);transition:all .6s}
 .section-label.visible{opacity:1;transform:translateY(0)}
 .section-title{font-family:'Syne',sans-serif;font-size:clamp(28px,4.5vw,48px);font-weight:800;letter-spacing:-.03em;line-height:1.05;margin-bottom:14px;opacity:0;transform:translateY(18px);transition:all .7s .1s}
@@ -216,7 +216,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 clamp(20px,4vw,40p
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .marquee-item{display:flex;align-items:center;gap:8px;white-space:nowrap;font-family:var(--mono);font-size:12px;color:var(--text3);letter-spacing:.05em;padding:6px 16px;border:1px solid var(--border);border-radius:100px;background:var(--surface);transition:all .3s;cursor:default}
 .marquee-item:hover{color:var(--accent);border-color:rgba(79,124,255,.3)}
-.skills-categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;margin-top:48px}
+.skills-categories{display:grid;grid-template-columns:repeat(4, 1fr);gap:20px;margin-top:48px}
 .skills-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius2);padding:32px 24px 24px;opacity:0;transform:translateY(22px);transition:all .6s;position:relative;overflow:hidden}
 .skills-card.visible{opacity:1;transform:translateY(0)}
 .skills-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));transform:scaleX(0);transform-origin:left;transition:transform .4s}
@@ -228,8 +228,115 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 clamp(20px,4vw,40p
 .skill-bar-bg{height:2px;background:var(--border);border-radius:2px;overflow:hidden}
 .skill-bar{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0;transition:width 1.2s cubic-bezier(.16,1,.3,1)}
 
+/* AI TWIN CHAT */
+.chat-window {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius2);
+  display: flex;
+  flex-direction: column;
+  height: 480px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+}
+.chat-header {
+  padding: 15px 20px;
+  background: rgba(79, 124, 255, 0.08);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.chat-header-img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid var(--accent);
+  object-fit: cover;
+}
+.chat-header-info h4 {
+  font-size: 14px;
+  font-family: 'Syne', sans-serif;
+  color: var(--text);
+  margin: 0;
+}
+.chat-header-info span {
+  font-size: 10px;
+  color: var(--accent3);
+  font-family: var(--mono);
+  display: block;
+}
+.chat-messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-image: radial-gradient(var(--border) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+.chat-msg {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  position: relative;
+  animation: msgFade 0.3s ease forwards;
+}
+@keyframes msgFade { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+.chat-msg.bot {
+  align-self: flex-start;
+  background: var(--bg3);
+  color: var(--text2);
+  border-bottom-left-radius: 2px;
+  border: 1px solid var(--border);
+}
+.chat-msg.user {
+  align-self: flex-end;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff;
+  border-bottom-right-radius: 2px;
+}
+.chat-input-area {
+  padding: 15px;
+  display: flex;
+  gap: 10px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+}
+.chat-input {
+  flex: 1;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 15px;
+  color: var(--text);
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.chat-input:focus { border-color: var(--accent); }
+.chat-submit {
+  background: var(--accent);
+  border: none;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  transition: transform 0.2s;
+}
+.chat-submit:hover { transform: scale(1.05); background: var(--accent2); }
+
+/* FLOATING BTN */
 /* PROJECTS */
-.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-top:48px}
+.projects-grid{display:grid;grid-template-columns:repeat(4, 1fr);gap:20px;margin-top:48px}
 .project-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius2);padding:28px;position:relative;overflow:hidden;cursor:pointer;opacity:0;transform:translateY(26px);transition:all .6s}
 .project-card.visible{opacity:1;transform:translateY(0)}
 .project-card::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(79,124,255,.07),transparent 55%);opacity:0;transition:opacity .4s;pointer-events:none}
@@ -339,19 +446,49 @@ footer{padding:36px clamp(20px,4vw,40px);border-top:1px solid var(--border);disp
   .about-grid{grid-template-columns:1fr;gap:28px}
   .about-photo-wrap{max-width:260px;margin:0 auto}
   .contact-inner{grid-template-columns:1fr}
+  .projects-grid, .skills-categories, .milestones-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media(max-width:768px){
   .nav-links{display:none}
   .hamburger{display:flex}
   .hero-photo-wrap{width:200px;right:10px;bottom:0}
   .ft1,.ft2,.ft3,.ft4,.ft5,.ft6{display:none}
+  .projects-grid, .skills-categories, .milestones-grid { grid-template-columns: 1fr; }
 }
 @media(max-width:480px){
   .hero-cta{flex-direction:column}
   .btn-primary,.btn-outline{text-align:center;width:100%}
-  .achievements-grid{grid-template-columns:1fr 1fr}
   footer{flex-direction:column;text-align:center}
   .hero-photo-wrap{width:160px}
+}
+
+@keyframes floatBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.floating-chat-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 90px;
+  height: auto;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: floatBob 4s ease-in-out infinite;
+}
+.floating-chat-btn:hover {
+  animation-play-state: paused;
+  transform: scale(1.08) translateY(-15px);
+  filter: drop-shadow(0 20px 25px rgba(0,0,0,0.25));
+}
+.floating-chat-btn img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
 }
 </style>
 </head>
@@ -745,16 +882,32 @@ footer{padding:36px clamp(20px,4vw,40px);border-top:1px solid var(--border);disp
           <a href="https://www.instagram.com/i_mthoufik" target="_blank" class="contact-link-item"><span class="contact-link-icon">IG</span><span class="contact-link-label">@i_mthoufik</span></a>
         </div>
       </div>
-      <div class="contact-form">
-        <div class="form-group"><label class="form-label">NAME</label><input type="text" class="form-input" placeholder="Your full name"></div>
-        <div class="form-group"><label class="form-label">EMAIL</label><input type="email" class="form-input" placeholder="your@email.com"></div>
-        <div class="form-group"><label class="form-label">MESSAGE</label><textarea class="form-textarea" placeholder="Tell me about your project or opportunity..."></textarea></div>
-        <button class="btn-send" onclick="handleSend(this)">Send Message →</button>
+      <div class="chat-window">
+        <div class="chat-header">
+          <img src="Aiicon2.png" alt="AI Thoufik" class="chat-header-img">
+          <div class="chat-header-info">
+            <h4>Thoufik AI Twin</h4>
+            <span>Online · Ready to chat</span>
+          </div>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+          <div class="chat-msg bot">Hi! I'm Thoufik's AI Twin. Ask me anything about my projects, skills, or professional availability!</div>
+        </div>
+        <div class="chat-input-area">
+          <input type="text" class="chat-input" id="chatInput" placeholder="Ask about projects, skills..." onkeypress="handleChat(event)">
+          <button class="chat-submit" onclick="sendMessage()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </section>
 </main>
+
+<a href="#contact" class="floating-chat-btn" id="floatingChat">
+  <img src="Aiicon2.png" alt="Chat with AI Thoufik">
+</a>
 
 <footer>
   <div class="footer-logo">Mohammed Thoufik S</div>
@@ -913,6 +1066,47 @@ if (experienceSection) {
     });
   }, { threshold: 0.1 });
   bhObserver.observe(experienceSection);
+}
+
+// AI TWIN CHAT LOGIC
+const botData = {
+  skills: "React, Next.js, TensorFlow, PyTorch, Python, Flask, Node.js, and Power BI.",
+  projects: "EcoTex (AI Textile Design), Auticare (Autism Pre-screening), KnowChat (WhatsApp Analytics), and AgroNITY.",
+  availability: "I'm currently looking for full-time roles and freelance opportunities in AI Engineering and Full-Stack development.",
+  greeting: "Hello! I'm Thoufik's digital twin. I can tell you about my technical skills, recent projects, or how to get in touch!"
+};
+
+function handleChat(e) { if (e.key === 'Enter') sendMessage(); }
+
+function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+
+  appendMessage('user', msg);
+  input.value = '';
+
+  setTimeout(() => {
+    const response = getBotResponse(msg.toLowerCase());
+    appendMessage('bot', response);
+  }, 600);
+}
+
+function getBotResponse(q) {
+  if (q.includes('skill') || q.includes('tech')) return `I specialize in ${botData.skills}`;
+  if (q.includes('project') || q.includes('work')) return `I've built several AI-powered apps like ${botData.projects} Scroll up to see the details!`;
+  if (q.includes('available') || q.includes('hire') || q.includes('job')) return botData.availability;
+  if (q.includes('contact') || q.includes('email')) return "You can reach me at thoufik@example.com or find my socials on the left of this section.";
+  return "That's a great question! I'm Thoufik's AI assistant. Ask me about his projects, skills, or experience.";
+}
+
+function appendMessage(type, text) {
+  const container = document.getElementById('chatMessages');
+  const msgEl = document.createElement('div');
+  msgEl.className = `chat-msg ${type}`;
+  msgEl.textContent = text;
+  container.appendChild(msgEl);
+  container.scrollTop = container.scrollHeight;
 }
 </script>
 </body>
