@@ -70,15 +70,17 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;padding:0 clamp(
 
 /* SUN CANVAS */
 #sun-canvas{position:absolute;right:clamp(10px,3vw,60px);top:50%;transform:translateY(-50%);z-index:4;will-change:transform;cursor:none}
+@media(max-width:768px){#sun-canvas{top:auto;bottom:20px;right:50%;transform:translateX(50%);display:block!important}}
 
 /* HERO CONTENT */
-.hero-content{position:relative;z-index:5;padding:0 clamp(16px,6vw,100px);max-width:min(660px,55vw);padding-top:30px}
+.hero-content{position:relative;z-index:5;padding:0 clamp(16px,6vw,100px);max-width:min(750px,65vw);padding-top:30px}
 @media(max-width:768px){.hero-content{max-width:100%;padding:0 16px;padding-top:20px}}
 .hero-badge{display:inline-flex;align-items:center;gap:7px;padding:4px 12px;border-radius:100px;border:1px solid rgba(79,124,255,.3);background:rgba(79,124,255,.05);font-size:10px;color:var(--accent);font-family:var(--mono);letter-spacing:.08em;margin-bottom:20px;opacity:0;transform:translateY(16px);animation:fadeUp .7s ease .3s forwards}
 .hero-badge::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--accent3);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 .hero-title{font-family:'Syne',sans-serif;font-size:clamp(32px,6vw,76px);font-weight:800;line-height:.95;letter-spacing:-.04em;margin-bottom:16px;opacity:0;transform:translateY(24px);animation:fadeUp .9s ease .4s forwards}
-.hero-title .grad{background:linear-gradient(135deg,#4f7cff,#7b5ea7,#2dd4bf);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200%;animation:shimmer 4s ease infinite}
+.hero-row{display:block;white-space:nowrap}@media(max-width:768px){.hero-row{display:inline;white-space:normal;margin-right:0.2em}}
+.hero-title .grad{background:linear-gradient(135deg,#4f7cff,#7b5ea7,#2dd4bf);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200%;animation:shimmer 4s ease infinite;display:block;white-space:nowrap}@media(max-width:768px){.hero-title .grad{display:inline;white-space:normal}}
 @keyframes shimmer{0%{background-position:0%}100%{background-position:200%}}
 .hero-type{font-family:var(--mono);font-size:clamp(12px,1.6vw,16px);color:var(--accent3);margin-bottom:16px;opacity:0;transform:translateY(16px);animation:fadeUp .7s ease .55s forwards;min-height:24px}
 .hero-type .cur2{border-right:2px solid var(--accent3);animation:blink 1s step-end infinite}
@@ -243,6 +245,10 @@ footer{padding:28px clamp(16px,4vw,40px);border-top:1px solid var(--border);disp
 .flinks a{font-size:10px;color:var(--text3);text-decoration:none;transition:color .2s;font-family:var(--mono)}
 .flinks a:hover{color:var(--accent)}
 @media(max-width:480px){footer{flex-direction:column;text-align:center}.hero-cta{flex-direction:column}.btn-pri,.btn-out{text-align:center;width:100%}}
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hamburger{display:flex}
+}
 
 /* FLOATING CHAT ICON */
 .float-ai{position:fixed;bottom:25px;right:25px;width:80px;height:auto;z-index:1000;filter:drop-shadow(0 8px 15px rgba(0,0,0,0.4));animation:floatBot 4s ease-in-out infinite;cursor:pointer;transition:filter .3s,transform .3s}
@@ -282,7 +288,7 @@ footer{padding:28px clamp(16px,4vw,40px);border-top:1px solid var(--border);disp
   <canvas id="sun-canvas"></canvas>
   <div class="hero-content">
     <div class="hero-badge"><span></span>Available · Chennai, India</div>
-    <h1 class="hero-title"><span style="display:block">Mohammed</span><span class="grad">Thoufik S</span></h1>
+    <h1 class="hero-title"><span class="hero-row">Mohammed</span><span class="grad">Thoufik S</span></h1>
     <div class="hero-type"><span id="typeTxt">AI & Full-Stack Developer</span><span class="cur2"></span></div>
     <p class="hero-desc">Building intelligent systems and modern web experiences at the intersection of AI, data science, and elegant frontend engineering.</p>
     <div class="hero-cta">
@@ -474,8 +480,8 @@ let cmts=[new Cmt(),new Cmt()];
 (function(){
   const canvas=document.getElementById('sun-canvas');
   const isMobile=window.innerWidth<768;
-  const SIZE=isMobile?0:Math.min(window.innerWidth*.28,320);
-  if(isMobile){canvas.style.display='none';return}
+  const SIZE=isMobile?180:Math.min(window.innerWidth*.28,320);
+  // if(isMobile){canvas.style.display='none';return}
   canvas.width=SIZE;canvas.height=SIZE;
   canvas.style.width=SIZE+'px';canvas.style.height=SIZE+'px';
   const gl=canvas.getContext('webgl',{alpha:true,antialias:true,premultipliedAlpha:false});
@@ -571,7 +577,11 @@ let cmts=[new Cmt(),new Cmt()];
   let t=0;
   // Parallax on scroll (disappear when scrolled past hero)
   let scrollY=0;
-  window.addEventListener('scroll',()=>{scrollY=window.scrollY;const heroH=document.getElementById('hero').offsetHeight;if(scrollY>heroH*.7){canvas.style.opacity='0';canvas.style.pointerEvents='none'}else{canvas.style.opacity=String(1-scrollY/(heroH*.7));canvas.style.pointerEvents='auto'}});
+  window.addEventListener('scroll',()=>{
+    scrollY=window.scrollY; const heroH=document.getElementById('hero').offsetHeight; const isMob=window.innerWidth<768;
+    if(!isMob){ if(scrollY>heroH*.7){canvas.style.opacity='0';canvas.style.pointerEvents='none'}else{canvas.style.opacity=String(1-scrollY/(heroH*.7));canvas.style.pointerEvents='auto'} }
+    else { canvas.style.opacity = scrollY > heroH ? '0' : '1'; }
+  });
   canvas.style.transition='opacity .5s';
 
   function frame(){
@@ -588,7 +598,9 @@ let cmts=[new Cmt(),new Cmt()];
 
   // Glow layers around sun
   function drawGlow(){
-    const ctx=document.createElement('canvas');ctx.width=SIZE+120;ctx.height=SIZE+120;ctx.style.cssText=`position:absolute;top:50%;right:clamp(10px,3vw,60px);transform:translate(${(SIZE+120-SIZE)/2}px,-50%);pointer-events:none;z-index:3`;
+    const ctx=document.createElement('canvas');ctx.width=SIZE+120;ctx.height=SIZE+120;
+    const isMob=window.innerWidth<768;
+    ctx.style.cssText=isMob ? `position:absolute;bottom:20px;right:50%;transform:translate(50%,50%);pointer-events:none;z-index:3` : `position:absolute;top:50%;right:clamp(10px,3vw,60px);transform:translate(${(SIZE+120-SIZE)/2}px,-50%);pointer-events:none;z-index:3`;
     const g=ctx.getContext('2d');
     const cx=(SIZE+120)/2,cy=(SIZE+120)/2,r=SIZE/2;
     const grd=g.createRadialGradient(cx,cy,r*.7,cx,cy,r*1.3);
@@ -632,6 +644,57 @@ document.querySelectorAll('.pcard').forEach(c=>{c.addEventListener('mousemove',e
 // MARQUEE
 const techs=['React.js','Next.js','TypeScript','TensorFlow','PyTorch','scikit-learn','Flask','Node.js','Power BI','Tailwind CSS','MERN','Python','Jupyter','Framer Motion','Git','Random Forest'];
 const track=document.getElementById('mqTrack');[...techs,...techs].forEach(t=>{const el=document.createElement('span');el.className='mqitem';el.innerHTML=`<span style="color:var(--accent);font-size:8px">◆</span> ${t}`;track.appendChild(el)});
+// ORBIT SYSTEM
+const orbitData = [
+  { r: window.innerWidth < 768 ? 100 : 120, s: 0.0004, techs: ['Git', 'Power BI', 'Jupyter'] },
+  { r: window.innerWidth < 768 ? 160 : 200, s: -0.0003, techs: ['React.js', 'Next.js', 'Node.js', 'Flask'] },
+  { r: window.innerWidth < 768 ? 220 : 280, s: 0.0002, techs: ['Python', 'TensorFlow', 'PyTorch', 'scikit-learn'] }
+];
+const orbitContainer = document.getElementById('orbitContainer');
+const orbitItems = [];
+orbitData.forEach((layer, i) => {
+  const path = document.createElement('div');
+  path.className = 'orbit-path';
+  path.style.width = (layer.r * 2) + 'px';
+  path.style.height = (layer.r * 2) + 'px';
+  orbitContainer.appendChild(path);
+  layer.techs.forEach((t, j) => {
+    const el = document.createElement('div');
+    el.className = 'orbit-tech';
+    el.innerHTML = t.charAt(0) + `<span>${t}</span>`;
+    orbitContainer.appendChild(el);
+    orbitItems.push({ el, layer: i, angle: (j / layer.techs.length) * Math.PI * 2, tech: t });
+    el.onclick = () => filterByTech(t, el);
+  });
+});
+function animOrbits() {
+  const now = Date.now();
+  orbitItems.forEach(item => {
+    const layer = orbitData[item.layer];
+    const currentAngle = item.angle + (now * layer.s);
+    const x = Math.cos(currentAngle) * layer.r;
+    const y = Math.sin(currentAngle) * layer.r;
+    item.el.style.transform = `translate(${x}px, ${y}px)`;
+  });
+  requestAnimationFrame(animOrbits);
+}
+animOrbits();
+function filterByTech(tech, el) {
+  const isActive = el.classList.contains('active');
+  document.querySelectorAll('.orbit-tech').forEach(t => t.classList.remove('active'));
+  const pcards = document.querySelectorAll('.pcard');
+  if (isActive) {
+    pcards.forEach(p => p.classList.remove('highlight', 'dim'));
+    return;
+  }
+  el.classList.add('active');
+  pcards.forEach(p => {
+    const match = p.dataset.tech.toLowerCase().includes(tech.toLowerCase());
+    p.classList.toggle('highlight', match);
+    p.classList.toggle('dim', !match);
+  });
+  document.getElementById('projects').scrollIntoView({ behavior: 'smooth' });
+}
 
 // MOBILE
 function toggleMob(){document.getElementById('mobMenu').classList.toggle('open')}
@@ -688,9 +751,6 @@ function botReply(q){
 
 // SMOOTH SCROLL
 document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}})});
-
-// RESIZE sun on window resize
-window.addEventListener('resize',()=>{const isMob=window.innerWidth<768;document.getElementById('sun-canvas').style.display=isMob?'none':'block'});
 </script>
 </body>
 </html>
