@@ -1,0 +1,19 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "Mohammed Thoufik S - AI & Full-Stack Developer Portfolio",
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "echo 'No build required for static HTML'",
+    "lint": "echo 'No linter configured'"
+  },
+  "keywords": [
+    "portfolio",
+    "static"
+  ],
+  "author": "Mohammed Thoufik S",
+  "license": "MIT",
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  }
+}
