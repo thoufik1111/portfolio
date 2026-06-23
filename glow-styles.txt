@@ -1,0 +1,26 @@
+Add these styles to .pcard and .skcard for border glow effect:
+
+For .pcard - change overflow:hidden to overflow:visible and add isolation:isolate
+Add after the existing ::before:
+.pcard::after{content:'';position:absolute;inset:-3px;border-radius:18px;opacity:0;transition:opacity .4s;pointer-events:none;z-index:-1;background:conic-gradient(from var(--glow-angle,0deg),#c084fc 0%,#f472b6 15%,#38bdf8 30%,transparent 50%) border-box;border:2px solid transparent}
+.pcard:hover::after{opacity:0.8}
+
+For .skcard - change overflow:hidden to overflow:visible and add isolation:isolate  
+Add similar ::after with different colors
+
+JavaScript to add after PROJECT GLOW section:
+function initBorderGlow(){
+  const cards=[...document.querySelectorAll('.pcard'),...document.querySelectorAll('.skcard')];
+  cards.forEach(card=>{
+    card.style.setProperty('--glow-angle','0deg');
+    card.addEventListener('mousemove',e=>{
+      const rect=card.getBoundingClientRect();
+      const x=e.clientX-rect.left;
+      const y=e.clientY-rect.top;
+      const angleRad=Math.atan2(y-rect.height/2,x-rect.width/2);
+      const angleDeg=angleRad*(180/Math.PI)+90;
+      card.style.setProperty('--glow-angle',`${angleDeg}deg`);
+    });
+  });
+}
+setTimeout(initBorderGlow,2000);
